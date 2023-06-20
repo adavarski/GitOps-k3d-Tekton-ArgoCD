@@ -212,9 +212,9 @@ If there is some error we can redeploy/rerun tekton pipeline and tasks
 
 If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
 
-If you click in this pipelinerun you’ll see the different executed stages
+If you click in this pipelinerun you’ll see the different executed stages:
 
-<img src="poc/doc/img/pipeline-concepto.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
 
 Each stage is executed by a pod. For instance, you can execute:
 
@@ -234,7 +234,6 @@ products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0         
  
 to see how different pods are created to execute different stages:
 
-<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
 
 
 It’s possible to access to Sonarqube to check quality issues, opening this url in the browser (TODO)
