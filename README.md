@@ -249,7 +249,7 @@ Nexus Picture
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
-commit Picture
+<img src="poc/doc/img/gitops-tekton-update-infra-repo.png?raw=true" width="1000">
 
 
 ####  Argo CD Part
