@@ -254,7 +254,25 @@ In this pipeline, it doesn’t check if quality gate is passed.
 
 And It’s also possible to access to Nexus to check how the artifact has been published (TODO)
 
+```
+### Ingress create:
+kubectl apply -f ingress-nexus.yaml -n cicd
+```
+
+Browser: http://sonarqube.192.168.1.99.nip.io:8888
+
+
 <img src="poc/doc/img/nexus.png?raw=true" width="1000">
+
+Note: All ingresses
+```
+$ kubectl get ing --all-namespaces
+NAMESPACE          NAME                CLASS   HOSTS                           ADDRESS         PORTS   AGE
+tekton-pipelines   tekton-ingress      nginx   tekton.192.168.1.99.nip.io      192.168.128.2   80      88m
+argocd             argocd-ingress      nginx   argocd.192.168.1.99.nip.io      192.168.128.2   80      88m
+cicd               sonarqube-ingress   nginx   sonarqube.192.168.1.99.nip.io   192.168.128.2   80      7m
+cicd               nexus-ingress       nginx   nexus.192.168.1.99.nip.io       192.168.128.2   80      16s
+```
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
