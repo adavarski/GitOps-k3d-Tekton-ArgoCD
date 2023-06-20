@@ -159,7 +159,7 @@ Note: In fact, for Argo CD, create secret with the token isn’t necessary becau
 3) Create Kubernetes cluster (optional)
 This step is optional. If you already have a cluster, perfect, but if not, you can create a local one based on K3D, just executing the script `poc/create-local-cluster.sh`. This script creates the local cluster and configure the private image registry to manage Docker images.
 
-4) Setup `poc/setup-poc.sh`
+4) Setup -> Run `poc/setup-poc.sh`
 This step is the most important because installs and configures everything necessary in the cluster:
 
 - Installs Tekton  & Argo CD, including secrets to access to Git repo
@@ -239,7 +239,6 @@ products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0         
 to see how different pods are created to execute different stages:
 
 
-
 It’s possible to access to Sonarqube to check quality issues, opening this url in the browser 
 
 ```
@@ -259,7 +258,7 @@ And It’s also possible to access to Nexus to check how the artifact has been p
 kubectl apply -f ingress-nexus.yaml -n cicd
 ```
 
-Browser: http://sonarqube.192.168.1.99.nip.io:8888
+Browser: http://nexus.192.168.1.99.nip.io:8888
 
 
 <img src="poc/doc/img/nexus.png?raw=true" width="1000">
