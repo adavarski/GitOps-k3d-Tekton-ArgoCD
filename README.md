@@ -242,13 +242,13 @@ to see how different pods are created to execute different stages:
 
 It’s possible to access to Sonarqube to check quality issues, opening this url in the browser (TODO)
 
-Sonarqube Picture
+<img src="poc/doc/img/sonarqube.png?raw=true" width="1000">
 
 In this pipeline, it doesn’t check if quality gate is passed.
 
 And It’s also possible to access to Nexus to check how the artifact has been published (TODO)
 
-Nexus Picture
+<img src="poc/doc/img/nexus.png?raw=true" width="1000">
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
