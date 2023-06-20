@@ -84,7 +84,10 @@ Does it mean that we can not implement the whole process using Tekton? No, it do
 Requirements
 To execute this PoC it’s you need to have:
 
+
+#### Requirenments:
 A Kubernetes cluster. If you don’t have one, you can create a K3D one using the script `create-local-cluster.sh` but, obviously, you need to have installed:
+
 - K3D
 - Docker
 - Kubectl
@@ -156,7 +159,7 @@ Note: In fact, for Argo CD, create secret with the token isn’t necessary becau
 3) Create Kubernetes cluster (optional)
 This step is optional. If you already have a cluster, perfect, but if not, you can create a local one based on K3D, just executing the script `poc/create-local-cluster.sh`. This script creates the local cluster and configure the private image registry to manage Docker images.
 
-4) Setup
+4) Setup `poc/setup-poc.sh`
 This step is the most important because installs and configures everything necessary in the cluster:
 
 - Installs Tekton  & Argo CD, including secrets to access to Git repo
