@@ -288,6 +288,6 @@ Finally, the sync status become “Synced”:
 If you create a local cluster in step 3, there is an script to remove the local cluster. This script is `poc/delete-local-cluster.sh`
 
 
-
+REF (example): https://github.com/adavarski/homelab -> We can add additional system (grafana/prometheus/etc.) Apps & ApplicationSet via ArgoCD manifests
 
 
