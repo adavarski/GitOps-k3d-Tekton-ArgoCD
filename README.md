@@ -185,12 +185,11 @@ command terminated with exit code 1
 
 5) Explore and play
 
-
 Once everything is installed, you can play with this project:
 
 #### Tekton Part
 Tekton dashboard could be exposed locally using this command: `kubectl proxy --port=8080`
-```
+
 but we will use ingress -> just open this url in the browser: http://tekton.192.168.1.99.nip.io:8888
 
 By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing.
@@ -214,31 +213,40 @@ If you click in this pipelinerun you’ll see the different executed stages
 
 <img src="poc/doc/img/pipeline-concepto.png?raw=true" width="1000">
 
-
 Each stage is executed by a pod. For instance, you can execute:
 
 ```
- kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
+kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
+
+$ kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
+NAME                                              READY   STATUS      RESTARTS   AGE
+products-ci-pipelinerun-checkout-pod              0/1     Completed   0          16m
+products-ci-pipelinerun-publish-pod               0/2     Completed   0          16m
+products-ci-pipelinerun-build-and-test-pod        0/2     Completed   0          15m
+products-ci-pipelinerun-prepare-image-pod         0/1     Completed   0          15m
+products-ci-pipelinerun-build-image-pod           0/3     Completed   0          13m
+products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0          11m
+ 
 ```
  
 to see how different pods are created to execute different stages:
 
+<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
+
+
 It’s possible to access to Sonarqube to check quality issues, opening this url in the browser (TODO)
 
-Sonarqube: Picture
+Sonarqube Picture
 
 In this pipeline, it doesn’t check if quality gate is passed.
 
-
 And It’s also possible to access to Nexus to check how the artifact has been published (TODO)
 
-Nexus: Picture
+Nexus Picture
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
-commit: Picture
-
-<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
+commit Picture
 
 
 ####  Argo CD Part
