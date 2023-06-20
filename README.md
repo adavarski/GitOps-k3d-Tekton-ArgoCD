@@ -258,7 +258,7 @@ And It’s also possible to access to Nexus to check how the artifact has been p
 kubectl apply -f ingress-nexus.yaml -n cicd
 ```
 
-Browser: http://nexus.192.168.1.99.nip.io:8888
+Browser: http://nexus.192.168.1.99.nip.io:8888 (admin/admin123)
 
 
 <img src="poc/doc/img/nexus.png?raw=true" width="1000">
