@@ -1,28 +1,29 @@
-# Tekton and Argo CD PoC
+## Kubernetes - CI/CD with Tekton & Argo CD (Tekton and Argo CD PoC)
 
-This is a PoC to check Tekton, Argo CD and how both tools can work together following a GitOps way
+This is a PoC to check Tekton, Argo CD and how both tools can work together following a GitOps way.
 
-
-With this repo to show how a modern and cloud native CI/CD could be implemented within a Kubernetes environment. I’ll use two different tools:
+With this repo to show how a modern and cloud native CI/CD could be implemented within a Kubernetes environment. We’ll use two different tools:
 
 - Tekton: to implement CI stages
 - Argo CD: to implement CD stages (Gitops)
 
 This repo doesn’t try to be a master class about Tekton or Argo CD. It is only intended to set an starting point to explore both tools using them directly in a cluster.
 
-Tekton?
+### Tekton?
 
-Tekton is an Open Source framework to build CI/CD pipelines directly over a Kuberentes cluster. It was originally developed at Google and was known as Knative pipelines
+Tekton is an Open Source framework to build CI/CD pipelines directly over a Kuberentes cluster. It was originally developed at Google and was known as Knative pipelines.
 
 Tekton defines a series of Kubernetes custom resources (CRDs) extending the Kubernetes API. Sorry, what that means? Ok, if we go to the Kubernetes official page, we can read the following definition:
 
-Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster
+```
+Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster.
+```
 
-So, examples of Kubernetes objects are: Pod, Service, Deployment, etc…Tekton builds its own objects to Kubernetes and deploys them into the cluster. If you feel curious about custom objects, here the official documentation is and you can also check the Tekton Github to see how these objects are. For instance, Pipeline or Task
+So, examples of Kubernetes objects are: Pod, Service, Deployment, etc. Tekton builds its own objects to Kubernetes and deploys them into the cluster. If you feel curious about custom objects, here the official documentation is and you can also check the Tekton Github to see how these objects are. For instance, [Pipeline](https://github.com/tektoncd/pipeline/blob/main/config/300-pipeline.yaml) or [Task](https://github.com/tektoncd/pipeline/blob/main/config/300-task.yaml).
 
 
 
-Argo CD?
+### Argo CD?
 
 Argo CD is a delivery tool (CD) built for Kubernetes, based on GitOps movement. So, what that means? Basically that Argo CD works synchronizing “Kubernetes files” between a git repository and a Kubernetes cluster. That is, if there is a change in a YAML file, Argo CD will detect that there are changes and will try to apply those changes in the cluster.
 
@@ -30,8 +31,7 @@ Argo CD, like Tekton, also creates its own Kubernetes custom resources that are 
 
 
 Are they ready to be adopted?
-At the moment in which this post is being written, both tools are very “young”. For instance, if we check the last releases we can see:
-So, we are facing two young platforms and that may imply that there are not many examples, documentation or even maturity failures, but it’s true that both tools are called to be the standard cloud native CI/CD according to the principal cloud players.
+We are facing two young platforms and that may imply that there are not many examples, documentation or even maturity failures, but it’s true that both tools are called to be the standard cloud native CI/CD according to the principal cloud players.
 
 For instance, Tekton:
 
@@ -48,50 +48,50 @@ And, talking about Argo CD:
 - IBM: https://www.ibm.com/cloud/blog/simplify-and-automate-deployments-using-gitops-with-ibm-multicloud-manager-3-1-2
 
 
-CI/CD Cloud Native?
+### CI/CD Cloud Native?
 
-We’re talking a lot about “cloud native” associated to Tekton y Argo CD but, what do we mean by that? As I said before, both Tekton and Argo CD are installed in the Kubernetes cluster and they are based on extending Kubernetes API. Let’s see it in detail:
+We’re talking a lot about “cloud native” associated to Tekton & Argo CD but, what do we mean by that? Both Tekton and Argo CD are installed in the Kubernetes cluster and they are based on extending Kubernetes API. Let’s see it in detail:
 
-Scalability: both tools are installed in the cluster and because of that, they work creating pods to perform tasks. Pods are the way in which applications can scale horizontally…so, scalabilly are guaranteed
+- Scalability: both tools are installed in the cluster and because of that, they work creating pods to perform tasks. Pods are the way in which applications can scale horizontally … so, scalabilly are guaranteed.
 
-Portabillity: both tools are based on extending Kubernetes API, creating new Kubernetes objects. These objects can be installed in every Kubernetes cluster.
+- Portabillity: both tools are based on extending Kubernetes API, creating new Kubernetes objects. These objects can be installed in every Kubernetes cluster.
 
-Reusability: the different elements within the CI/CD process use the Kubernetes objects defined by Tekton and Argo CD in the same way that you work with deployments o service objects. That means that stages, tasks or applications are YAML files that you can store in some repository and use in every cluster with Tekton and Argo CD installed. For instance, it’s possible to use artifacts from Tekton catalog or even, it’s possible to use the Openshift catalog or building a custom one.
+- Reusability: the different elements within the CI/CD process use the Kubernetes objects defined by Tekton and Argo CD in the same way that you work with deployments o service objects. That means that stages, tasks or applications are YAML files that you can store in some repository and use in every cluster with Tekton and Argo CD installed. For instance, it’s possible to use artifacts from Tekton catalog or even, it’s possible to use the Openshift catalog or building a custom one.
 
 
 
-What are we going to build?
+### What are we going to build?
 We are going to build a simple CI/CD process, on Kubernetes, with these stages:
 
-pipeline-stages
-
+<img src="poc/doc/img/pipeline-concepto.png?raw=true" width="1000">
 
 
 In this pipeline, we can see two different parts:
 
-CI part, implemented by Tekton and ending with a stage in which a push to a repository is done.
-Checkout: in this stage, source code repository is cloned
-Build & Test: in this stage, we use Maven to build and execute test
-Code Analisys: code is evaluated by Sonarqube
-Publish: if everything is ok, artifact is published to Nexus
-Build image: in this stage, we build the image and publish to local registry
-Push to GitOps repo: this is the final CI stage, in which Kubernetes descriptors are cloned from the GitOps repository, they are modified in order to insert commit info and then, a push action is performed to upload changes to GitOps repository
-CD part, implemented by Argo CD, in which Argo CD detects that the repository has changed and perform the sync action against the Kubernetes cluster.
+#### CI part, implemented by Tekton and ending with a stage in which a push to a repository is done.
+- Checkout: in this stage, source code repository is cloned
+- Build & Test: in this stage, we use Maven to build and execute test
+- Code Analisys (TODO): code is evaluated by Sonarqube
+- Publish: if everything is ok, artifact is published to Nexus
+- Build image: in this stage, we build the image and publish to local registry
+- Push to GitOps repo: this is the final CI stage, in which Kubernetes descriptors are cloned from the GitOps repository, they are modified in order to insert commit info and then, a push action is performed to upload changes to GitOps repository
+
+#### CD part, implemented by Argo CD, in which Argo CD detects that the repository has changed and perform the sync action against the Kubernetes cluster.
 Does it mean that we can not implement the whole process using Tekton? No, it doesn’t. It’s possible to implement the whole process using Tekton but in this case, I want to show the Gitops concept.
 
 
-
-Hands-on!
+### Hands-on!
 Requirements
 To execute this PoC it’s you need to have:
 
-A Kubernetes cluster. If you don’t have one, you can create a K3D one using the script `create-local-cluster.sh` but, obviously, you need to have installed K3D
-Docker
-Kubectl
+A Kubernetes cluster. If you don’t have one, you can create a K3D one using the script `create-local-cluster.sh` but, obviously, you need to have installed:
+- K3D
+- Docker
+- Kubectl
 
 
-Repository structure
-I’ve used a single repo to manage the different projects. The repository is structured in this way:
+#### Repository structure
+I’ve used a single repo to manage the different projects. 
 
 Basically:
 
@@ -110,8 +110,7 @@ Ok, how can I execute it?
 1) Fork
 The first step is to fork the repo `https://github.com/adavarski/gitops-k3d-tekton-argocd` because:
 
-You have to modify some files to add a token
-You need your own repo to perform Gitops operations
+You have to modify some files to add a token & You need your own repo to perform Gitops operations
 
 
 2) Add Github token
@@ -119,7 +118,7 @@ It’s necessary to add a Github Personal Access Token to Tekton can perform git
 
 The token needs to be allowed with “repo” grants.
 
-Once the token is created, you have to copy it in these files (## INSERT TOKEN HERE:
+Once the token is created, you have to copy it in these files (## INSERT TOKEN HERE):
 ```
 poc/conf/argocd/git-repository.yaml
 
@@ -151,31 +150,29 @@ stringData:
   password: ## INSERT TOKEN HERE
 ```
 
-In fact, for Argo CD, create secret with the token isn’t necessary because the gitops repository in Github has public access but I think it’s interesting to keep it in order to know what you need to do in case the repository be private.
-
+Note: In fact, for Argo CD, create secret with the token isn’t necessary because the gitops repository in Github has public access but I think it’s interesting to keep it in order to know what you need to do in case the repository be private.
 
 
 3) Create Kubernetes cluster (optional)
-This step is optional. If you already have a cluster, perfect, but if not, you can create a local one based on K3D, just executing the script poc/create-local-cluster.sh. This script creates the local cluster and configure the private image registry to manage Docker images.
+This step is optional. If you already have a cluster, perfect, but if not, you can create a local one based on K3D, just executing the script `poc/create-local-cluster.sh`. This script creates the local cluster and configure the private image registry to manage Docker images.
 
 4) Setup
 This step is the most important because installs and configures everything necessary in the cluster:
 
-Installs Tekton y Argo CD, including secrets to access to Git repo
-Creates the volume and claim necessary to execute pipelines
-Deploys Tekton dashboard
-Deploys Sonarqube
-Deploys Nexus and configure an standard instance
-Creates the configmap associated to Maven settings.xml, ready to publish artifacts in Nexus (with user and password)
-Installs Tekton tasks and pipelines
-Git-clone (from Tekton Hub)
-Maven (from Tekton Hub)
-Buildah (from Tekton Hub)
-Prepare Image (custom task: poc/conf/tekton/tasks/prepare-image-task.yaml)
-Push to GitOps repo (custom task: poc/conf/tekton/tasks/push-to-gitops-repo.yaml)
-Installs Argo CD application, configured to check changes in gitops repository (resources/gitops_repo)
-Update Argo CD password
-
+- Installs Tekton  & Argo CD, including secrets to access to Git repo
+- Creates the volume and claim necessary to execute pipelines
+- Deploys Tekton dashboard
+- Deploys Sonarqube
+- Deploys Nexus and configure an standard instance
+- Creates the configmap associated to Maven settings.xml, ready to publish artifacts in Nexus (with user and password)
+- Installs Tekton tasks and pipelines
+- Git-clone (from Tekton Hub)
+- Maven (from Tekton Hub)
+- Buildah (from Tekton Hub)
+- Prepare Image (custom task: poc/conf/tekton/tasks/prepare-image-task.yaml)
+- Push to GitOps repo (custom task: poc/conf/tekton/tasks/push-to-gitops-repo.yaml)
+- Installs Argo CD application, configured to check changes in gitops repository (resources/gitops_repo)
+- Update Argo CD password 
 
 Be patient. The process takes some minutes.
 
@@ -187,83 +184,90 @@ command terminated with exit code 1
 ```
 
 5) Explore and play
+
+
 Once everything is installed, you can play with this project:
 
-Tekton Part
-Tekton dashboard could be exposed locally using this command:
+#### Tekton Part
+Tekton dashboard could be exposed locally using this command: `kubectl proxy --port=8080`
 ```
-kubectl proxy --port=8080 or we can use ingress: http://tekton.192.168.1.99.nip.io:8888
+but we will use ingress -> just open this url in the browser: http://tekton.192.168.1.99.nip.io:8888
+
+By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing.
+
+If there is some error we can redeploy/rerun tekton pipeline and tasks
+
 ```
-Then, just open this url in the browser:
+  kubectl delete -f conf/tekton/git-access -n cicd
+  kubectl delete -f conf/tekton/tasks -n cicd
+  kubectl delete -f conf/tekton/pipelines -n cicd
+
+  kubectl apply -f conf/tekton/git-access -n cicd
+  kubectl apply -f conf/tekton/tasks -n cicd
+  kubectl apply -f conf/tekton/pipelines -n cicd
+
 ```
-http://localhost:8080/api/v1/namespaces/tekton-pipelines/services/tekton-dashboard:http/proxy/#/namespaces/cicd/pipelineruns
-```
 
-By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing:
+If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
 
-pipeline_running
+If you click in this pipelinerun you’ll see the different executed stages
 
-If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option:
+<img src="poc/doc/img/pipeline-concepto.png?raw=true" width="1000">
 
-installed_tasks
-
-If you click in this pipelinerun you’ll see the different executed stages:
-
-pipelinerun-stages
 
 Each stage is executed by a pod. For instance, you can execute:
 
+```
  kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
+```
+ 
 to see how different pods are created to execute different stages:
 
-pipelinerun-stages-pods
+It’s possible to access to Sonarqube to check quality issues, opening this url in the browser (TODO)
 
-
-
-It’s possible to access to Sonarqube to check quality issues, opening this url in the browser:
-
-sonarqube
+Sonarqube: Picture
 
 In this pipeline, it doesn’t check if quality gate is passed.
 
 
+And It’s also possible to access to Nexus to check how the artifact has been published (TODO)
 
-And It’s also possible to access to Nexus to check how the artifact has been published:
+Nexus: Picture
 
-nexus
+As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
-As I said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
+commit: Picture
 
-commit changes
+<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
 
 
+####  Argo CD Part
 
-Argo CD Part
 To access to Argo CD dashboard you need to perform a port-forward:
 
+```
 kubectl port-forward svc/argocd-server -n argocd 9080:443
+```
+Then, just open this url in the browser: https://localhost:9080/ 
 
-Then, just open this url in the browser:
+But again we will use ingress URL: 
 
-https://localhost:9080/ or ingress: http://argocd.192.168.1.99.nip.io:8888
-I’ve set the admin user with these credentials: admin / admin123
+Just open http://argocd.192.168.1.99.nip.io:8888
+
+I’ve set the admin user with these credentials: admin / `$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
 
 In this dashboard you should be the “product service” application that manages synchronization between Kubernetes cluster and GitOps repository
 
-argocd_initial
 
+<img src="poc/doc/img/gitops-k3d-tekton-argo-argo.png?raw=true" width="1000">
 
 
 This application is “healthy” but as the objects associated with Product Service (Pods, Services, Deployment,…etc) aren’t still deployed to the Kubernetes cluster, you’ll find a “unknown” sync status.
 
 Once the “pipelinerun” ends and changes are pushed to GitOps repository, Argo CD compares content deployed in the Kubernetes cluster (associated to Products Service) with content pushed to the GitOps repository and synchronize Kubernetes cluster against the repository:
 
-argocd-products
 
 Finally, the sync status become “Synced”:
-
-argocd_initial
-
 
 
 6) Delete the local cluster (optional )
@@ -271,6 +275,5 @@ If you create a local cluster in step 3, there is an script to remove the local 
 
 
 
-I hope you’ve liked this post. In next posts we’ll cover Tekton triggers.
 
 
