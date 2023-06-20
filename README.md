@@ -197,6 +197,8 @@ but we will use ingress -> just open this url in the browser: http://tekton.192.
 
 By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing.
 
+<img src="poc/doc/img/gitops-tekton-pipeline.png?raw=true" width="1000">
+
 If there is some error we can redeploy/rerun tekton pipeline and tasks
 
 ```
@@ -211,6 +213,8 @@ If there is some error we can redeploy/rerun tekton pipeline and tasks
 ```
 
 If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
+
+<img src="poc/doc/img/gitops-tekton-tasks.png?raw=true" width="1000">
 
 If you click in this pipelinerun you’ll see the different executed stages:
 
