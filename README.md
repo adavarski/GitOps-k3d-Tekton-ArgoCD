@@ -240,7 +240,13 @@ to see how different pods are created to execute different stages:
 
 
 
-It’s possible to access to Sonarqube to check quality issues, opening this url in the browser (TODO)
+It’s possible to access to Sonarqube to check quality issues, opening this url in the browser 
+
+```
+### Ingress create:
+kubectl apply -f ingress-sonarqube.yaml -n cicd
+```
+Browser: http://sonarqube.192.168.1.99.nip.io:8888
 
 <img src="poc/doc/img/sonarqube.png?raw=true" width="1000">
 
