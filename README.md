@@ -199,7 +199,7 @@ By that link you’ll access to PipelineRuns options and you’ll see a pipeline
 
 <img src="poc/doc/img/gitops-tekton-pipeline.png?raw=true" width="1000">
 
-If there is some error we can redeploy/rerun tekton pipeline and tasks
+If there is some error we can redeploy/rerun tekton pipeline and tasks:
 
 ```
   kubectl delete -f conf/tekton/git-access -n cicd
@@ -245,13 +245,13 @@ It’s possible to access to Sonarqube to check quality issues, opening this url
 ### Ingress create:
 kubectl apply -f ingress-sonarqube.yaml -n cicd
 ```
-Browser: http://sonarqube.192.168.1.99.nip.io:8888
+Browser: http://sonarqube.192.168.1.99.nip.io:8888 (admin:admin)
 
 <img src="poc/doc/img/sonarqube.png?raw=true" width="1000">
 
 In this pipeline, it doesn’t check if quality gate is passed.
 
-And It’s also possible to access to Nexus to check how the artifact has been published (TODO)
+And It’s also possible to access to Nexus to check how the artifact has been published
 
 ```
 ### Ingress create:
