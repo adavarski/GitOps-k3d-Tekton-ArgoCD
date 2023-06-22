@@ -1,4 +1,4 @@
-## Kubernetes - CI/CD with Tekton & Argo CD (Tekton and Argo CD PoC)
+## Kubernetes - CI/CD with Tekton & Argo CD (DevOps Cloud-native CI/CD GitOps with Tekton & ArgoCD PoC)
 
 This is a PoC to check Tekton, Argo CD and how both tools can work together following a GitOps way.
 
