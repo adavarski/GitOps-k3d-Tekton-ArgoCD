@@ -321,9 +321,9 @@ $ ./apply.sh
 
 ```
 
-### Example production-like GitFlow branching strategy with Argo & Tekton:
+### Note: Example production-like GitFlow branching strategy with Argo & Tekton (GitOps):
 
-<img src="poc/doc/img/gitops.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops.png?raw=true" width="800">
 
 
 ### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
