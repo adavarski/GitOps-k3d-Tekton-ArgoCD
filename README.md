@@ -88,9 +88,11 @@ To execute this PoC it’s you need to have:
 #### Requirenments:
 A Kubernetes cluster. If you don’t have one, you can create a K3D one using the script `create-local-cluster.sh` but, obviously, you need to have installed:
 
-- K3D
-- Docker
-- Kubectl
+- [Docker](https://docs.docker.com/engine/install/ubuntu/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+- [k3d](https://k3d.io/#installation)
+- [tkn](https://tekton.dev/docs/cli/) (Note: Tekton CLI)
+- [Skaffold](https://skaffold.dev)  (Note: Local Kubernetes Development)
 
 
 #### Repository structure
@@ -199,7 +201,7 @@ By that link you’ll access to PipelineRuns options and you’ll see a pipeline
 
 <img src="poc/doc/img/gitops-tekton-pipeline.png?raw=true" width="1000">
 
-If there is some error we can redeploy/rerun tekton pipeline and tasks:
+If there is some error we can redeploy/rerun tekton pipeline and tasks or better use `tkn` (Tekton CLI)::
 
 ```
   kubectl delete -f conf/tekton/git-access -n cicd
@@ -318,6 +320,11 @@ $ cd homelab/bootstrap/root/
 $ ./apply.sh 
 
 ```
+
+### Example production-like GitFlow branching strategy with Argo & Tekton:
+
+<img src="poc/doc/img/gitops.png?raw=true" width="1000">
+
 
 ### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
